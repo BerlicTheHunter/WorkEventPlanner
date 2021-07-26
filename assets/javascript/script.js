@@ -21,11 +21,42 @@ timeIDEl.each(function(index){
     };
 });
 
-//..........Display Items From Current Local Storage........//
-var currentList = localStorage.ToDo;
+//..........Initiate Local Storage and Clear Storage for a new day........//
+var today = date.format("LL");
+var currentList = localStorage.planner;
+var currentArray=[];
+console.log(currentArray)
+var plannerList0=[
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "testing",
+    "",
+    "",
+    "",
+    "",
+    "",
+    today,
+];
+if(currentList == undefined || currentArray[12] != today){
+    localStorage.planner = JSON.stringify(plannerList0);
+    var currentList = localStorage.planner;
+    var currentArray= JSON.parse(currentList);
+};
 
-if(currentList == undefined){
-    localStorage.ToDo = JSON.stringify([]);
-}
 
-console.log(JSON.parse(localStorage.ToDo));
+// ..........Set Values in storage to timebocks..........//
+timeIDEl.each(function(index){
+    $(inputField[index]).val(currentArray[index]);
+    console.log(currentArray[index]);
+});
+
+
+
+
+
+console.log(currentArray[12]);
+console.log(today);
