@@ -1,7 +1,10 @@
+// ..........Set Universal Variable..........//
 var displayDate= $("#currentDay");
 var date=moment();
 var timeIDEl= $(".timeID");
 var inputField= $(".description");
+var saveBtn= $(".saveBtn");
+
 // ..........Display Current Date.............//
 displayDate.text(date.format("LLLL"));
 
@@ -24,39 +27,37 @@ timeIDEl.each(function(index){
 //..........Initiate Local Storage and Clear Storage for a new day........//
 var today = date.format("LL");
 var currentList = localStorage.planner;
-var currentArray=[];
-console.log(currentArray)
-var plannerList0=[
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "testing",
-    "",
-    "",
-    "",
-    "",
-    "",
-    today,
-];
-if(currentList == undefined || currentArray[12] != today){
+var plannerList0=["","","","","","","","","","","","",today,];
+
+//..........Define currentArray if no localStorage Exists..........//
+if(currentList == undefined){
+    var currentArray = [];
+    localStorage.planner = JSON.stringify(plannerList0);
+    var currentList = localStorage.planner;
+    var currentArray= JSON.parse(currentList);
+}
+
+var currentArray= JSON.parse(currentList);
+
+//..........Clear Out timeblocks at the start of a new day..........//
+if( currentArray[12] != today){
     localStorage.planner = JSON.stringify(plannerList0);
     var currentList = localStorage.planner;
     var currentArray= JSON.parse(currentList);
 };
 
-
 // ..........Set Values in storage to timebocks..........//
 timeIDEl.each(function(index){
     $(inputField[index]).val(currentArray[index]);
-    console.log(currentArray[index]);
 });
 
-
-
-
-
-console.log(currentArray[12]);
-console.log(today);
+// ..........Save new inputs to LocalStorage
+saveBtn.each(function(index){
+    $(this).on("click", function(){
+        console.log(index + " was clicked");
+        currentArray[index]= $(inputField[index]).val();
+        localStorage.planner = JSON.stringify(currentArray);
+        currentList = localStorage.planner;
+        console.log(inputField[index]);
+    });
+});
